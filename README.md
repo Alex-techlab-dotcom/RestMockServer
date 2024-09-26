@@ -1,7 +1,6 @@
 # REST Mock Server
 
-A Spring Boot 3-based **Mock Server** that generates customizable responses for REST API requests. This project is designed for developers who need to simulate API responses for testing, prototyping, or simulating various behaviors in their applications.
-
+In this project, I’ve implemented a **Mock Server** using Spring Boot 3 and Java 17, which generates mock responses for incoming REST requests. This server is useful for simulating API behavior during development, testing, and integration without needing a fully functional backend. The project uses Jakarta EE for validation and persistence, along with Spring Boot’s flexibility for handling HTTP requests.
 ## Features
 
 - Simulate REST API responses for any endpoint.
