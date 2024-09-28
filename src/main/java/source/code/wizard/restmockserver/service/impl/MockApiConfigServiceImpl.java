@@ -50,7 +50,7 @@ public class MockApiConfigServiceImpl implements MockApiConfigCrudService {
     @Override
     public void deleteByID(final Long id) {
         Optional.ofNullable(id)
-                .orElseThrow(()->new RuntimeException("ID must not be null"));
+                .orElseThrow(() -> new RuntimeException("ID must not be null"));
         mockApiConfigRepository.deleteById(id);
     }
 
@@ -62,9 +62,10 @@ public class MockApiConfigServiceImpl implements MockApiConfigCrudService {
                 .statusCode(mockApiConfigDto.statusCode())
                 .response(jsonMapper.writeValueAsString(mockApiConfigDto.response()))
                 .build();
-        mockApiConfigRepository.save(mockApiConfigurationEntity);
-        return mockApiConfigDto;
+        final MockApiConfigurationEntity entity = mockApiConfigRepository.save(mockApiConfigurationEntity);
+        return entityToDTO(entity);
     }
+
     private MockApiConfigDto entityToDTO(MockApiConfigurationEntity mockApiConfigurationEntity) {
         try {
             return MockApiConfigDto.builder()

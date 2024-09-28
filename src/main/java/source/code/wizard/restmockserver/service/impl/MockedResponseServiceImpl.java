@@ -20,9 +20,10 @@ import java.util.stream.Collectors;
 public class MockedResponseServiceImpl implements MockedResponseService {
     private final MockApiConfigRepository mockApiConfigRepository;
     private final ObjectMapper jsonMapper;
+
     @Override
     public MockApiConfigDto produceMockedResponse(HttpServletRequest httpServletRequest) throws IOException {
-        final StringBuffer requestURL = httpServletRequest.getRequestURL();
+        final String requestURL = removeHostFromUrl(String.valueOf(httpServletRequest.getRequestURL()));
         final String requestMethod = httpServletRequest.getMethod();
         final MockApiConfigurationEntity mockApiConfigurationEntity = mockApiConfigRepository.findByRequestPathUrlAndMethod(requestURL.toString(), requestMethod)
                 .orElseThrow(() -> new RuntimeException("Not found."));
@@ -30,6 +31,10 @@ public class MockedResponseServiceImpl implements MockedResponseService {
                 .response(jsonMapper.readValue(mockApiConfigurationEntity.getResponse(), Object.class))
                 .statusCode(mockApiConfigurationEntity.getStatusCode())
                 .build();
+    }
+
+    private String removeHostFromUrl(final String OriginalUrl) {
+        return OriginalUrl.replace("http://localhost:8080/mock", "");
     }
 
     private static String getRequestBodyAsString(HttpServletRequest httpServletRequest) throws IOException {
